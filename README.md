@@ -7,7 +7,7 @@ Aplicación de escritorio para gestionar clientes, reservas, mascotas y facturac
 ## ¿Qué necesito instalar?
 
 - [Java 17 o superior](https://www.oracle.com/java/technologies/downloads/)
-- [XAMPP](https://www.apachefriends.org/es/index.html) (incluye MySQL, es lo más fácil)
+- [MySQL](https://dev.mysql.com/downloads/mysql/) (solo el servidor MySQL, sin XAMPP)
 - [NetBeans](https://netbeans.apache.org/front/main/download/) (para abrir y ejecutar el proyecto)
 
 ---
@@ -16,24 +16,20 @@ Aplicación de escritorio para gestionar clientes, reservas, mascotas y facturac
 
 **1. Clona o descarga el proyecto**
 
-**2. Abre XAMPP y enciende el módulo MySQL**
+**2. Asegúrate de que MySQL esté corriendo**
 
-**3. Importa la base de datos**
-   - Abre tu navegador y entra a `http://localhost/phpmyadmin`
-   - Crea una base de datos llamada `sistemareserva`
-   - Entra a esa base de datos, ve a la pestaña **Importar**
-   - Selecciona el archivo `database/schema.sql` y haz clic en **Importar**
-
-**4. Crea el archivo de conexión**
+**3. Crea el archivo de conexión**
    - Ve a la carpeta `src/main/resources/`
-   - Copia el archivo `database.properties.example`
-   - Pégalo en la misma carpeta y renómbralo a `database.properties`
-   - No necesitas cambiar nada si usas XAMPP con la configuración por defecto
+   - Copia `database.properties.example` y renómbralo a `database.properties`
+   - Edita los valores `db.user` y `db.password` según tu instalación de MySQL
+   - Si instalaste MySQL con la configuración por defecto (usuario `root` sin contraseña), no necesitas cambiar nada
 
-**5. Abre el proyecto en NetBeans**
+**4. Abre el proyecto en NetBeans**
    - Archivo → Abrir proyecto → selecciona la carpeta del proyecto
    - Espera que descargue las dependencias (solo la primera vez)
    - Presiona el botón **Run** (el triángulo verde) o F6
+
+> La aplicación **crea la base de datos automáticamente** la primera vez que se ejecuta. No necesitas importar ningún archivo SQL ni usar phpMyAdmin.
 
 ---
 
@@ -48,6 +44,6 @@ Contraseña: 12345
 
 ## ¿Algo no funciona?
 
-- Asegúrate de que MySQL esté encendido en XAMPP antes de abrir la app
-- Si te dice error de contraseña, abre `database.properties` y verifica que diga `db.user=mi_user` y `db.password=admin123`
-- Si XAMPP usa un usuario diferente, cambia esos valores en `database.properties`
+- Asegúrate de que MySQL esté encendido antes de abrir la app
+- Si te dice error de contraseña, abre `database.properties` y verifica que `db.user` y `db.password` coincidan con tu instalación de MySQL
+- Si MySQL tiene contraseña para root, ponla en `db.password`
