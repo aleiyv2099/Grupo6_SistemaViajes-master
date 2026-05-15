@@ -1,0 +1,3 @@
+db.url=jdbc:mysql://localhost:3306/sistemareserva?serverTimezone=UTC
+db.user=mi_user
+db.password=admin123
