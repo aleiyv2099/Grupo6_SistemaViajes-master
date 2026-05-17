@@ -71,12 +71,12 @@ public class FacturaDAO {
     }
 
     public boolean softDeleteInvoice(int codigoFactura) {
-        String sql = "UPDATE facturas SET Estado = 0 WHERE CodigoFactura = ?";
+        String sql = "UPDATE facturas SET Estado = 0 WHERE CodigoFactura = ? AND Estado = 1";
         try (Connection con = dbManager.getActiveConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, codigoFactura);
-            ps.executeUpdate();
-            return true;
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error al eliminar factura", e);
             return false;
