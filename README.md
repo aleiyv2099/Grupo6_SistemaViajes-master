@@ -42,6 +42,14 @@ Contraseña: 12345
 
 ---
 
+## Facturas en PDF
+
+Al generar una factura, el PDF se guarda en la carpeta `pdfs/` dentro del directorio de trabajo del proyecto. NetBeans muestra un mensaje indicando la ruta exacta.
+
+Para cambiar el nombre de la empresa, RUC, teléfono o dirección que aparecen en el encabezado del PDF, edita el archivo `src/main/resources/app.properties`.
+
+---
+
 ## ¿Algo no funciona?
 
 - Asegúrate de que MySQL esté encendido antes de abrir la app

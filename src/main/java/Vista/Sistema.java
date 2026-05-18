@@ -32,10 +32,14 @@ import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -43,6 +47,19 @@ import java.util.stream.Collectors;
  * @author Mini Wernaso
  */
 public class Sistema extends javax.swing.JFrame {
+
+    private static final Logger LOGGER = Logger.getLogger(Sistema.class.getName());
+    private static final Properties APP_PROPS = cargarAppProperties();
+
+    private static Properties cargarAppProperties() {
+        Properties p = new Properties();
+        try (InputStream in = Sistema.class.getClassLoader().getResourceAsStream("app.properties")) {
+            if (in != null) p.load(in);
+        } catch (IOException e) {
+            Logger.getLogger(Sistema.class.getName()).log(Level.WARNING, "No se pudo cargar app.properties", e);
+        }
+        return p;
+    }
 
     ClienteDTO cl = new ClienteDTO();
     ClienteDAO client = new ClienteDAO();
@@ -207,8 +224,6 @@ public class Sistema extends javax.swing.JFrame {
                 f.getInvoiceStatus()
             });
         }
-
-        System.out.println("Total filas cargadas en tabla: " + modelo.getRowCount());
 
         TableFacturas.setModel(modelo);
     }
@@ -2059,23 +2074,25 @@ private void LimpiarCliente() {
             JOptionPane.showMessageDialog(null, "Seleccione una fila");
         } else {
             try {
-                String dest = "src/main/java/pdf/factura" + txtCodigoFactura.getText() + ".pdf";
-                File file = new File(dest);
-                file.getParentFile().mkdirs(); // Crea los directorios si no existen
+                String outputDir = APP_PROPS.getProperty("app.pdf.output.dir", "pdfs");
+                File dir2 = new File(outputDir);
+                dir2.mkdirs();
+                String dest = outputDir + File.separator + "factura" + txtCodigoFactura.getText() + ".pdf";
 
                 PdfWriter writer = new PdfWriter(dest);
                 PdfDocument pdf = new PdfDocument(writer);
                 Document document = new Document(pdf);
 
-                // Imagen
-                ImageData imageData = ImageDataFactory.create("src/main/resources/LogoP.png");
+                // Imagen desde classpath
+                java.net.URL logoUrl = getClass().getResource("/LogoP.png");
+                ImageData imageData = ImageDataFactory.create(logoUrl);
                 Image img = new Image(imageData).scaleToFit(80, 80);
 
-                // Datos del encabezado
-                String ruc = "1212121212001";
-                String nom = "Grupo 6";
-                String tel = "094848484";
-                String dir = "Ecuador";
+                // Datos del encabezado desde app.properties
+                String ruc = APP_PROPS.getProperty("app.company.ruc", "");
+                String nom = APP_PROPS.getProperty("app.company.name", "");
+                String tel = APP_PROPS.getProperty("app.company.phone", "");
+                String dir = APP_PROPS.getProperty("app.company.address", "");
 
                 // Fecha
                 Paragraph fecha = new Paragraph("Factura: "+txtCodigoFactura.getText()+"\nFecha: " + txtFechadeEmisionFactura.getText())
@@ -2190,9 +2207,11 @@ private void LimpiarCliente() {
                         .setBold());
 
                 document.close();
-                System.out.println("PDF generado correctamente.");
+                LOGGER.info("PDF generado correctamente.");
+                JOptionPane.showMessageDialog(null, "Factura generada en: " + dest);
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Error al generar el PDF", e);
+                JOptionPane.showMessageDialog(null, "Error al generar el PDF: " + e.getMessage());
             }
         }
     }
