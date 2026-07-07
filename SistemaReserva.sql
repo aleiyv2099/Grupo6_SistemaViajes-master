@@ -62,19 +62,7 @@ CREATE TABLE IF NOT EXISTS `mascotas` (
   `observaciones` text,
   `Estado` tinyint DEFAULT '1',
   PRIMARY KEY (`id_mascota`),
-  KEY `fk_mascotas_clientes` (`CodigoCliente`),
-  CONSTRAINT `mascotas_ibfk_1` FOREIGN KEY (`CodigoCliente`) REFERENCES `clientes` (`CodigoCliente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE IF NOT EXISTS `equipaje` (
-  `id_equipaje` int NOT NULL AUTO_INCREMENT,
-  `CodigoCliente` int NOT NULL,
-  `tipo_equipaje` varchar(100) NOT NULL,
-  `peso` decimal(8,2) NOT NULL,
-  `cantidad` int NOT NULL,
-  PRIMARY KEY (`id_equipaje`),
-  KEY `fk_equipaje_clientes` (`CodigoCliente`),
-  CONSTRAINT `equipaje_ibfk_1` FOREIGN KEY (`CodigoCliente`) REFERENCES `clientes` (`CodigoCliente`)
+  KEY `fk_mascotas_clientes` (`CodigoCliente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `usuario` (
@@ -107,14 +95,44 @@ INSERT IGNORE INTO `mascotas` VALUES
   (1,54,'Rocky','Labrador',25.50,'Vacunas al dia',1),
   (2,55,'Luna','Siames',3.80,'Gato domestico tranquilo',1);
 
--- Nuevos datos de prueba para Equipaje (asignados a los clientes 54 y 55)
-INSERT IGNORE INTO `equipaje` VALUES
-  (1, 54, 'Maleta de bodega', 23.50, 1),
-  (2, 54, 'Equipaje de mano', 10.00, 1),
-  (3, 55, 'Maleta extra grande', 32.00, 2),
-  (4, 55, 'Mochila', 6.50, 1),
-  (5, 55, 'Caja frágil', 15.00, 1);
-
 INSERT IGNORE INTO `usuario` VALUES
   (1,'Vendedor Demo','vendedor@gmail.com','12345','vendedor'),
   (2,'Admin','admin@gmail.com','12345','admin');
+
+-- Módulo 2 — Gestión de Equipaje
+CREATE TABLE IF NOT EXISTS `equipaje` (
+  `id_equipaje` int NOT NULL AUTO_INCREMENT,
+  `CodigoCliente` int NOT NULL,
+  `tipo_equipaje` varchar(50) NOT NULL,
+  `peso` decimal(6,2) NOT NULL,
+  `cantidad` int NOT NULL,
+  PRIMARY KEY (`id_equipaje`),
+  KEY `CodigoCliente` (`CodigoCliente`),
+  CONSTRAINT `fk_equipaje_cliente` FOREIGN KEY (`CodigoCliente`) REFERENCES `clientes` (`CodigoCliente`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT IGNORE INTO `equipaje` VALUES
+  (1,54,'Maleta grande',23.00,1),
+  (2,54,'Equipaje de mano',8.00,1),
+  (3,55,'Maleta mediana',15.50,2);
+
+-- Módulo 5 — Soporte al Cliente (tickets) — RF-1..RF-5 (Autor: Nicole Malavé)
+CREATE TABLE IF NOT EXISTS `tickets` (
+  `CodigoTicket` int NOT NULL AUTO_INCREMENT,
+  `NombreCliente` varchar(100) NOT NULL,
+  `Correo` varchar(100) NOT NULL,
+  `NumeroContacto` varchar(10) DEFAULT NULL,
+  `TipoProblema` varchar(30) NOT NULL,
+  `Descripcion` varchar(300) DEFAULT NULL,
+  `FechaCreacion` date NOT NULL,
+  `EstadoTicket` varchar(20) NOT NULL DEFAULT 'Pendiente',
+  `Observaciones` text,
+  `Responsable` varchar(100) DEFAULT NULL,
+  `Estado` tinyint DEFAULT '1',
+  PRIMARY KEY (`CodigoTicket`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT IGNORE INTO `tickets`
+  (`CodigoTicket`,`NombreCliente`,`Correo`,`NumeroContacto`,`TipoProblema`,`Descripcion`,`FechaCreacion`,`EstadoTicket`,`Observaciones`,`Responsable`,`Estado`) VALUES
+  (1,'Carlos Perez','carlos@gmail.com','0991112223','Reserva','No puede cambiar el asiento de su vuelo',CURDATE(),'Pendiente','',' ',1),
+  (2,'Ana Lopez','ana@gmail.com','0987654321','Pago','Cobro duplicado en su tarjeta',CURDATE(),'En proceso','Se contacto al area de pagos','Nicole Malave',1);

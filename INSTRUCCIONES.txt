@@ -1,0 +1,98 @@
+=====================================================
+  SISTEMA DE AGENCIA DE VIAJES - GRUPO 6
+  Instrucciones para ejecutar el proyecto
+=====================================================
+
+PROGRAMAS QUE NECESITAS TENER INSTALADOS
+-----------------------------------------
+1. Java 17 o superior
+   https://www.oracle.com/java/technologies/downloads/
+
+2. MySQL (solo el servidor, sin XAMPP)
+   https://dev.mysql.com/downloads/mysql/
+
+3. NetBeans IDE
+   https://netbeans.apache.org/front/main/download/
+
+
+PASOS PARA CORRERLO
+--------------------
+
+PASO 1 - Extrae el ZIP en cualquier carpeta.
+
+PASO 2 - Asegurate de que MySQL este encendido.
+
+PASO 3 - Importa la base de datos.
+   El archivo SQL esta en la raiz del proyecto:  SistemaReserva.sql
+   Tienes dos opciones, usa la que prefieras:
+
+   -- OPCION A: Desde la linea de comandos --
+   Abre la terminal o el simbolo del sistema, ve a la carpeta
+   del proyecto y escribe:
+
+       mysql -u root -p < SistemaReserva.sql
+
+   Te pedira la contrasena de MySQL. Si no tienes, solo presiona Enter.
+   Eso crea la base de datos y carga los datos de ejemplo.
+
+   -- OPCION B: Desde MySQL Workbench --
+   1. Abre MySQL Workbench y conectate a tu servidor.
+   2. Ve al menu: Server -> Data Import
+   3. Selecciona "Import from Self-Contained File"
+   4. Busca el archivo SistemaReserva.sql  (esta en la raiz del proyecto)
+   5. Haz clic en "Start Import"
+
+   -- OPCION C: Automatica (si no quieres hacer nada manual) --
+   Si no ejecutas el SQL, la aplicacion crea la base de datos
+   sola la primera vez que corre. Los datos de ejemplo tambien
+   se cargan automaticamente.
+
+PASO 4 - Configura la conexion a la base de datos:
+   - Ve a la carpeta:  src/main/resources/
+   - Busca el archivo: database.properties.example
+   - Copialo y renombralo a:  database.properties
+   - Abrelo con el Bloc de notas y edita las lineas:
+
+       db.user=     <- pon tu usuario de MySQL (normalmente: root)
+       db.password= <- pon tu contrasena de MySQL (si no tienes, dejalo vacio)
+
+   Ejemplo si no tienes contrasena:
+       db.url=jdbc:mysql://localhost:3306/sistemareserva?serverTimezone=UTC
+       db.user=root
+       db.password=
+
+   Ejemplo si tienes contrasena (ej. "1234"):
+       db.url=jdbc:mysql://localhost:3306/sistemareserva?serverTimezone=UTC
+       db.user=root
+       db.password=1234
+
+PASO 5 - Abre el proyecto en NetBeans:
+   - Archivo -> Abrir proyecto
+   - Selecciona la carpeta del proyecto
+   - Espera que se descarguen las dependencias (solo la primera vez, requiere internet)
+   - Presiona el boton Run (triangulo verde) o la tecla F6
+
+
+CREDENCIALES PARA ENTRAR AL SISTEMA
+--------------------------------------
+   Usuario:    vendedor@gmail.com
+   Contrasena: 12345
+
+
+DONDE SE GUARDAN LAS FACTURAS EN PDF
+--------------------------------------
+   Cuando generes una factura en PDF, el archivo se guarda
+   en la carpeta  pdfs/  dentro del proyecto.
+   La aplicacion te avisa con un mensaje cuando termina.
+
+
+SI ALGO NO FUNCIONA
+--------------------
+- Verifica que MySQL este encendido antes de abrir la app.
+- Si aparece error de contrasena, revisa el archivo database.properties
+  y asegurate que db.user y db.password sean correctos.
+- Si MySQL tiene contrasena para root, ponla en db.password.
+- Si al abrir NetBeans pide descargar dependencias, acepta y espera.
+
+
+=====================================================

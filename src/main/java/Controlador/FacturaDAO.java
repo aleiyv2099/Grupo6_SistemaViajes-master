@@ -70,6 +70,20 @@ public class FacturaDAO {
         }
     }
 
+    public boolean updateInvoice(FacturaDTO factura) {
+        String sql = "UPDATE facturas SET MetodoPago = ?, EstadoFactura = ? WHERE CodigoFactura = ? AND Estado = 1";
+        try (Connection con = dbManager.getActiveConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, factura.getPaymentMethod());
+            ps.setString(2, factura.getInvoiceStatus());
+            ps.setInt(3, factura.getInvoiceCode());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error al actualizar factura", e);
+            return false;
+        }
+    }
+
     public boolean softDeleteInvoice(int codigoFactura) {
         String sql = "UPDATE facturas SET Estado = 0 WHERE CodigoFactura = ? AND Estado = 1";
         try (Connection con = dbManager.getActiveConnection();
