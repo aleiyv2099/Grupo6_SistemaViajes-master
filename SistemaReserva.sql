@@ -4,6 +4,11 @@
 CREATE DATABASE IF NOT EXISTS sistemareserva CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE sistemareserva;
 
+-- Usuario de la aplicación (debe coincidir con src/main/resources/database.properties)
+CREATE USER IF NOT EXISTS 'viajes'@'localhost' IDENTIFIED BY 'Viajes123#';
+GRANT ALL PRIVILEGES ON sistemareserva.* TO 'viajes'@'localhost';
+FLUSH PRIVILEGES;
+
 CREATE TABLE IF NOT EXISTS `clientes` (
   `CodigoCliente` int NOT NULL AUTO_INCREMENT,
   `DNI` varchar(20) NOT NULL,

@@ -118,3 +118,22 @@ INSERT IGNORE INTO `equipaje` VALUES
 INSERT IGNORE INTO `usuario` VALUES
   (1,'Vendedor Demo','vendedor@gmail.com','12345','vendedor'),
   (2,'Admin','admin@gmail.com','12345','admin');
+
+-- Módulo 5 — Soporte al Cliente (tickets) — Autor: Nicole Malavé
+CREATE TABLE IF NOT EXISTS `soporte` (
+  `codigoTicket` int NOT NULL AUTO_INCREMENT,
+  `nombreCliente` varchar(100) NOT NULL,
+  `correo` varchar(100) NOT NULL,
+  `telefono` varchar(10) DEFAULT NULL,
+  `tipoProblema` varchar(40) NOT NULL,
+  `descripcion` varchar(300) DEFAULT NULL,
+  `prioridad` varchar(10) NOT NULL DEFAULT 'Media',
+  `estado` varchar(20) NOT NULL DEFAULT 'Pendiente',
+  `responsable` varchar(100) DEFAULT 'Sin asignar',
+  PRIMARY KEY (`codigoTicket`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT IGNORE INTO `soporte`
+  (`codigoTicket`,`nombreCliente`,`correo`,`telefono`,`tipoProblema`,`descripcion`,`prioridad`,`estado`,`responsable`) VALUES
+  (1,'Carlos Perez','carlos@gmail.com','0991112223','Error Reserva','No puede cambiar el asiento de su vuelo','Alta','Pendiente','Sin asignar'),
+  (2,'Ana Lopez','ana@gmail.com','0987654321','Facturación','Cobro duplicado en su tarjeta','Media','En Proceso','Nicole Malave');

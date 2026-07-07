@@ -12,8 +12,17 @@ ejecutando las mismas consultas que hacen los DAOs con muchos usuarios a la vez.
 - Listeners: **Reporte Resumen** y **Ver Árbol de Resultados**.
 
 ## Requisitos
-- MySQL corriendo con la BD `sistemareserva` (usuario `viajes` / `Viajes123#`).
-- JMeter ya está en `~/apache-jmeter-5.6.3` con el driver `mysql-connector-j-8.0.33.jar` en `lib/`.
+- MySQL corriendo con la BD `sistemareserva` (usuario `viajes` / `Viajes123#`) — ver README principal.
+- **Apache JMeter instalado.** JMeter NO viene en este repositorio; se instala aparte:
+  ```bash
+  # 1. Descargar y descomprimir (necesita Java 17+)
+  wget https://dlcdn.apache.org/jmeter/binaries/apache-jmeter-5.6.3.tgz
+  tar xzf apache-jmeter-5.6.3.tgz
+  # 2. Copiar el driver JDBC de MySQL a la carpeta lib de JMeter (imprescindible para conectar a la BD)
+  #    (el driver está en tu repositorio Maven tras compilar el proyecto)
+  cp ~/.m2/repository/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar apache-jmeter-5.6.3/lib/
+  ```
+  En los comandos de abajo, ajusta la ruta `~/apache-jmeter-5.6.3` a donde lo hayas descomprimido.
 
 ## Abrir en modo gráfico (para la presentación)
 ```bash
