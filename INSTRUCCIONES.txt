@@ -1,76 +1,85 @@
 =====================================================
   SISTEMA DE AGENCIA DE VIAJES - GRUPO 6
-  Instrucciones para ejecutar el proyecto
+  Instrucciones para ejecutar el proyecto (desde el ZIP)
 =====================================================
 
 PROGRAMAS QUE NECESITAS TENER INSTALADOS
 -----------------------------------------
 1. Java 17 o superior
-   https://www.oracle.com/java/technologies/downloads/
+   https://adoptium.net/
 
-2. MySQL (solo el servidor, sin XAMPP)
+2. MySQL Server 8 (solo el servidor)
    https://dev.mysql.com/downloads/mysql/
 
-3. NetBeans IDE
-   https://netbeans.apache.org/front/main/download/
+3. NetBeans IDE (para abrir y ejecutar con un boton)
+   https://netbeans.apache.org/
 
 
-PASOS PARA CORRERLO
---------------------
+IMPORTANTE - LO UNICO QUE HAY QUE PREPARAR ES LA BASE DE DATOS
+---------------------------------------------------------------
+La aplicacion crea sus TABLAS sola la primera vez que arranca.
+PERO se conecta con un usuario de MySQL llamado "viajes", y ese
+usuario NO se crea solo: hay que crearlo UNA vez importando el
+archivo SQL que viene en el ZIP. Eso es todo.
+
+
+PASOS
+------
 
 PASO 1 - Extrae el ZIP en cualquier carpeta.
 
-PASO 2 - Asegurate de que MySQL este encendido.
+PASO 2 - Asegurate de que MySQL este ENCENDIDO.
+   Linux:  sudo systemctl start mysql
+   Windows/Mac: inicia el servicio MySQL o abre MySQL Workbench.
 
-PASO 3 - Importa la base de datos.
-   El archivo SQL esta en la raiz del proyecto:  SistemaReserva.sql
-   Tienes dos opciones, usa la que prefieras:
+PASO 3 - Crea la base de datos y el usuario (el paso clave).
+   Elige UNA opcion:
 
-   -- OPCION A: Desde la linea de comandos --
-   Abre la terminal o el simbolo del sistema, ve a la carpeta
-   del proyecto y escribe:
+   -- OPCION A: Linux, con el script automatico --
+       bash setup.sh                    (si tu root NO tiene contrasena)
+       bash setup.sh -p TU_PASS_ROOT    (si tu root tiene contrasena)
+       sudo bash setup.sh               (si tu root necesita sudo)
 
+   -- OPCION B: WINDOWS con "MySQL Command Line Client" (lo mas simple) --
+   1. Menu Inicio -> abre "MySQL 8.0 Command Line Client".
+   2. Escribe la contrasena de root de MySQL.
+   3. En el prompt  mysql>  escribe (con la ruta real donde extrajiste
+      el ZIP y usando barras normales "/"):
+
+       source C:/Users/TuUsuario/Downloads/Grupo6_SistemaViajes-master/SistemaReserva.sql
+
+   -- OPCION C: WINDOWS con MySQL Workbench (grafica) --
+   1. Abre MySQL Workbench y conectate a tu servidor local (como root).
+   2. Menu: File -> Open SQL Script -> selecciona  SistemaReserva.sql
+   3. Pulsa el rayo (Execute) para ejecutar todo el script.
+   (No uses "Data Import"; "Open SQL Script + Execute" es mas confiable.)
+
+   -- OPCION D: Linea de comandos (Linux, Mac o CMD de Windows) --
        mysql -u root -p < SistemaReserva.sql
+   OJO: en PowerShell de Windows el simbolo "<" NO funciona; usa la
+   Opcion B o C, o el CMD clasico.
 
-   Te pedira la contrasena de MySQL. Si no tienes, solo presiona Enter.
-   Eso crea la base de datos y carga los datos de ejemplo.
+   Cualquiera de las opciones crea:
+     - La base de datos "sistemareserva" con todas las tablas y datos de ejemplo.
+     - El usuario "viajes" con contrasena "Viajes123#".
 
-   -- OPCION B: Desde MySQL Workbench --
-   1. Abre MySQL Workbench y conectate a tu servidor.
-   2. Ve al menu: Server -> Data Import
-   3. Selecciona "Import from Self-Contained File"
-   4. Busca el archivo SistemaReserva.sql  (esta en la raiz del proyecto)
-   5. Haz clic en "Start Import"
+PASO 4 - NO tienes que tocar la configuracion.
+   El archivo src/main/resources/database.properties YA viene configurado
+   para el usuario "viajes". No cambies nada.
 
-   -- OPCION C: Automatica (si no quieres hacer nada manual) --
-   Si no ejecutas el SQL, la aplicacion crea la base de datos
-   sola la primera vez que corre. Los datos de ejemplo tambien
-   se cargan automaticamente.
+PASO 5 - Ejecuta la aplicacion.
 
-PASO 4 - Configura la conexion a la base de datos:
-   - Ve a la carpeta:  src/main/resources/
-   - Busca el archivo: database.properties.example
-   - Copialo y renombralo a:  database.properties
-   - Abrelo con el Bloc de notas y edita las lineas:
+   -- Con NetBeans --
+   Archivo -> Abrir proyecto -> selecciona la carpeta del proyecto
+   Espera que descargue las dependencias (solo la primera vez, requiere internet)
+   Presiona Run (triangulo verde) o F6.
 
-       db.user=     <- pon tu usuario de MySQL (normalmente: root)
-       db.password= <- pon tu contrasena de MySQL (si no tienes, dejalo vacio)
+   -- Por terminal (genera un .jar ejecutable) --
+       mvn clean package -DskipTests
+       java -jar target/SistemaAgenciaViajesGrupo6-1.0-SNAPSHOT.jar
 
-   Ejemplo si no tienes contrasena:
-       db.url=jdbc:mysql://localhost:3306/sistemareserva?serverTimezone=UTC
-       db.user=root
-       db.password=
-
-   Ejemplo si tienes contrasena (ej. "1234"):
-       db.url=jdbc:mysql://localhost:3306/sistemareserva?serverTimezone=UTC
-       db.user=root
-       db.password=1234
-
-PASO 5 - Abre el proyecto en NetBeans:
-   - Archivo -> Abrir proyecto
-   - Selecciona la carpeta del proyecto
-   - Espera que se descarguen las dependencias (solo la primera vez, requiere internet)
-   - Presiona el boton Run (triangulo verde) o la tecla F6
+   (Se usa -DskipTests porque el proyecto trae unos tests de integracion
+    que dependen de datos concretos; no afectan a la app.)
 
 
 CREDENCIALES PARA ENTRAR AL SISTEMA
@@ -81,18 +90,15 @@ CREDENCIALES PARA ENTRAR AL SISTEMA
 
 DONDE SE GUARDAN LAS FACTURAS EN PDF
 --------------------------------------
-   Cuando generes una factura en PDF, el archivo se guarda
-   en la carpeta  pdfs/  dentro del proyecto.
-   La aplicacion te avisa con un mensaje cuando termina.
+   En la carpeta  pdfs/  dentro del proyecto. La app avisa la ruta al terminar.
 
 
 SI ALGO NO FUNCIONA
 --------------------
-- Verifica que MySQL este encendido antes de abrir la app.
-- Si aparece error de contrasena, revisa el archivo database.properties
-  y asegurate que db.user y db.password sean correctos.
-- Si MySQL tiene contrasena para root, ponla en db.password.
-- Si al abrir NetBeans pide descargar dependencias, acepta y espera.
+- "Access denied for user 'viajes'"  -> no hiciste el PASO 3. Importa el SQL.
+- "Table '...soporte' doesn't exist"  -> base de datos vieja: vuelve a importar el SQL del PASO 3.
+- La app no abre / error de conexion  -> MySQL no esta encendido.
+- "mvn package" falla en los tests    -> usa  mvn clean package -DskipTests
 
 
 =====================================================
