@@ -116,23 +116,21 @@ INSERT IGNORE INTO `equipaje` VALUES
   (2,54,'Equipaje de mano',8.00,1),
   (3,55,'Maleta mediana',15.50,2);
 
--- Módulo 5 — Soporte al Cliente (tickets) — RF-1..RF-5 (Autor: Nicole Malavé)
-CREATE TABLE IF NOT EXISTS `tickets` (
-  `CodigoTicket` int NOT NULL AUTO_INCREMENT,
-  `NombreCliente` varchar(100) NOT NULL,
-  `Correo` varchar(100) NOT NULL,
-  `NumeroContacto` varchar(10) DEFAULT NULL,
-  `TipoProblema` varchar(30) NOT NULL,
-  `Descripcion` varchar(300) DEFAULT NULL,
-  `FechaCreacion` date NOT NULL,
-  `EstadoTicket` varchar(20) NOT NULL DEFAULT 'Pendiente',
-  `Observaciones` text,
-  `Responsable` varchar(100) DEFAULT NULL,
-  `Estado` tinyint DEFAULT '1',
-  PRIMARY KEY (`CodigoTicket`)
+-- Módulo 5 — Soporte al Cliente (tickets) — Autor: Nicole Malavé
+CREATE TABLE IF NOT EXISTS `soporte` (
+  `codigoTicket` int NOT NULL AUTO_INCREMENT,
+  `nombreCliente` varchar(100) NOT NULL,
+  `correo` varchar(100) NOT NULL,
+  `telefono` varchar(10) DEFAULT NULL,
+  `tipoProblema` varchar(40) NOT NULL,
+  `descripcion` varchar(300) DEFAULT NULL,
+  `prioridad` varchar(10) NOT NULL DEFAULT 'Media',
+  `estado` varchar(20) NOT NULL DEFAULT 'Pendiente',
+  `responsable` varchar(100) DEFAULT 'Sin asignar',
+  PRIMARY KEY (`codigoTicket`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT IGNORE INTO `tickets`
-  (`CodigoTicket`,`NombreCliente`,`Correo`,`NumeroContacto`,`TipoProblema`,`Descripcion`,`FechaCreacion`,`EstadoTicket`,`Observaciones`,`Responsable`,`Estado`) VALUES
-  (1,'Carlos Perez','carlos@gmail.com','0991112223','Reserva','No puede cambiar el asiento de su vuelo',CURDATE(),'Pendiente','',' ',1),
-  (2,'Ana Lopez','ana@gmail.com','0987654321','Pago','Cobro duplicado en su tarjeta',CURDATE(),'En proceso','Se contacto al area de pagos','Nicole Malave',1);
+INSERT IGNORE INTO `soporte`
+  (`codigoTicket`,`nombreCliente`,`correo`,`telefono`,`tipoProblema`,`descripcion`,`prioridad`,`estado`,`responsable`) VALUES
+  (1,'Carlos Perez','carlos@gmail.com','0991112223','Error Reserva','No puede cambiar el asiento de su vuelo','Alta','Pendiente','Sin asignar'),
+  (2,'Ana Lopez','ana@gmail.com','0987654321','Facturación','Cobro duplicado en su tarjeta','Media','En Proceso','Nicole Malave');

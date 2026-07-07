@@ -1,26 +1,41 @@
 package Modelo;
 
-/**
- * DTO del módulo Soporte al Cliente (tickets).
- * Campos según los requerimientos funcionales RF-1..RF-5 (Autor: Nicole Malavé).
- */
 public class SoporteDTO {
 
-    private int codigoTicket;         // Generado automáticamente
-    private String nombreCliente;     // Solo letras y espacios, máx 100
-    private String correo;            // Formato válido, máx 100
-    private String numeroContacto;    // Solo números, máx 10 dígitos
-    private String tipoProblema;      // Reserva, Pago, Cancelación, Consulta, Otro
-    private String descripcion;       // Máx 300
-    private String fechaCreacion;     // Automática
-    private String estadoTicket;      // Pendiente, En proceso, Resuelto, Cerrado
-    private String observaciones;     // Observaciones del agente
-    private String responsable;       // Responsable asignado
+    private int codigoTicket;
+    private String nombreCliente;
+    private String correo;
+    private String telefono;
+    private String tipoProblema;
+    private String descripcion;
+    private String estado;
+    private String responsable;
+    private String prioridad;
 
     public SoporteDTO() {
-    }
+}
 
-    // Getters y Setters
+public SoporteDTO(
+        int codigoTicket,
+        String nombreCliente,
+        String correo,
+        String telefono,
+        String tipoProblema,
+        String descripcion,
+        String estado,
+        String prioridad) {
+
+    this.codigoTicket = codigoTicket;
+    this.nombreCliente = nombreCliente;
+    this.correo = correo;
+    this.telefono = telefono;
+    this.tipoProblema = tipoProblema;
+    this.descripcion = descripcion;
+    this.estado = estado;
+    this.responsable = "";
+    this.prioridad = prioridad;
+}
+
     public int getCodigoTicket() {
         return codigoTicket;
     }
@@ -45,12 +60,12 @@ public class SoporteDTO {
         this.correo = correo;
     }
 
-    public String getNumeroContacto() {
-        return numeroContacto;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public void setNumeroContacto(String numeroContacto) {
-        this.numeroContacto = numeroContacto;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getTipoProblema() {
@@ -69,28 +84,12 @@ public class SoporteDTO {
         this.descripcion = descripcion;
     }
 
-    public String getFechaCreacion() {
-        return fechaCreacion;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setFechaCreacion(String fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    public String getEstadoTicket() {
-        return estadoTicket;
-    }
-
-    public void setEstadoTicket(String estadoTicket) {
-        this.estadoTicket = estadoTicket;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public String getResponsable() {
@@ -99,5 +98,13 @@ public class SoporteDTO {
 
     public void setResponsable(String responsable) {
         this.responsable = responsable;
+    }
+    
+    public String getPrioridad() {
+        return prioridad;
+    }
+    
+    public void setPrioridad(String prioridad) {
+        this.prioridad = prioridad;
     }
 }

@@ -1,7 +1,6 @@
 Vista/Sistema$50.class
 Vista/SoportePanel.class
 Vista/Sistema$47.class
-Vista/SoportePanel$SimpleDocListener.class
 Modelo/EquipajeDTO.class
 Vista/Sistema$56.class
 Vista/SoportePanel$1.class
@@ -10,10 +9,12 @@ Vista/Sistema$44.class
 Vista/Sistema$53.class
 Vista/Sistema$55.class
 Vista/Sistema$45.class
+Vista/SoportePanel$2.class
 Controlador/EquipajeDAO.class
 Vista/Sistema$52.class
 Modelo/SoporteDTO.class
 Vista/Sistema$51.class
+Vista/SoportePanel$3.class
 Vista/Sistema$54.class
 Vista/Sistema$49.class
 Vista/Sistema$43.class

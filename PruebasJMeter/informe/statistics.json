@@ -1,0 +1,50 @@
+{
+  "RF-2 Listar Tickets (SELECT)" : {
+    "transaction" : "RF-2 Listar Tickets (SELECT)",
+    "sampleCount" : 200,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 3.9549999999999983,
+    "medianResTime" : 3.0,
+    "minResTime" : 2.0,
+    "maxResTime" : 29.0,
+    "pct1ResTime" : 5.0,
+    "pct2ResTime" : 6.949999999999989,
+    "pct3ResTime" : 28.930000000000064,
+    "throughput" : 47.103155911446066,
+    "receivedKBytesPerSec" : 4507.475326042157,
+    "sentKBytesPerSec" : 0.0
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 400,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 7.4425000000000034,
+    "medianResTime" : 5.0,
+    "minResTime" : 2.0,
+    "maxResTime" : 570.0,
+    "pct1ResTime" : 7.0,
+    "pct2ResTime" : 8.0,
+    "pct3ResTime" : 29.0,
+    "throughput" : 83.02200083022001,
+    "receivedKBytesPerSec" : 3972.706111846202,
+    "sentKBytesPerSec" : 0.0
+  },
+  "RF-1 Registrar Ticket (INSERT)" : {
+    "transaction" : "RF-1 Registrar Ticket (INSERT)",
+    "sampleCount" : 200,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 10.92999999999999,
+    "medianResTime" : 6.0,
+    "minResTime" : 5.0,
+    "maxResTime" : 570.0,
+    "pct1ResTime" : 8.0,
+    "pct2ResTime" : 9.0,
+    "pct3ResTime" : 338.52000000000226,
+    "throughput" : 41.53686396677051,
+    "receivedKBytesPerSec" : 0.3650700934579439,
+    "sentKBytesPerSec" : 0.0
+  }
+}
