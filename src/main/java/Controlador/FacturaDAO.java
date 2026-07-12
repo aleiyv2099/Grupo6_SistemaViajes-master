@@ -61,7 +61,9 @@ public class FacturaDAO {
 
             } catch (SQLException e) {
                 con.rollback();
-                JOptionPane.showMessageDialog(null, "Error al registrar factura: " + e.toString());
+                LOGGER.log(Level.WARNING, "Factura revertida (rollback)", e);
+                JOptionPane.showMessageDialog(null,
+                        "No se pudo registrar la factura. Verifique que las reservas seleccionadas existan y pertenezcan al cliente.");
                 return false;
             }
         } catch (SQLException e) {

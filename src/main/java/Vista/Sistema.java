@@ -1574,6 +1574,15 @@ public class Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnActualizarFacturaActionPerformed
 
+    // Validaciones compartidas de formularios (rechazan vacíos, espacios y números donde no aplican)
+    public static boolean soloLetras(String texto) {
+        return texto != null && texto.trim().matches("[\\p{L} ]+");
+    }
+
+    public static boolean fechaValida(String fecha) {
+        return fecha != null && fecha.trim().matches("\\d{4}-\\d{2}-\\d{2}");
+    }
+
     private void btnAgregarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarReservaActionPerformed
         // TODO add your handling code here:
         if (!"".equals(txtOrigen.getText()) && !"".equals(txtDestino.getText())
@@ -1582,6 +1591,19 @@ public class Sistema extends javax.swing.JFrame {
 
             try {
                 int codigoCliente = Integer.parseInt(cmbCodigoCliente.getSelectedItem().toString());
+
+                if (!soloLetras(txtOrigen.getText()) || !soloLetras(txtDestino.getText())) {
+                    JOptionPane.showMessageDialog(null, "El origen y el destino solo pueden contener letras.");
+                    return;
+                }
+                if (txtOrigen.getText().trim().equalsIgnoreCase(txtDestino.getText().trim())) {
+                    JOptionPane.showMessageDialog(null, "El origen y el destino no pueden ser iguales.");
+                    return;
+                }
+                if (!fechaValida(txtFechaViaje.getText())) {
+                    JOptionPane.showMessageDialog(null, "La fecha de viaje debe tener el formato YYYY-MM-DD (ej. 2026-07-15).");
+                    return;
+                }
 
                 // Validar si el asiento ya está reservado
                 boolean ocupado = reservadao.isSeatAlreadyBooked(
@@ -1638,6 +1660,19 @@ public class Sistema extends javax.swing.JFrame {
                 try {
                     int codigoReserva = Integer.parseInt(txtCodigoReserva.getText());
                     int codigoCliente = Integer.parseInt(cmbCodigoCliente.getSelectedItem().toString());
+
+                    if (!soloLetras(txtOrigen.getText()) || !soloLetras(txtDestino.getText())) {
+                        JOptionPane.showMessageDialog(null, "El origen y el destino solo pueden contener letras.");
+                        return;
+                    }
+                    if (txtOrigen.getText().trim().equalsIgnoreCase(txtDestino.getText().trim())) {
+                        JOptionPane.showMessageDialog(null, "El origen y el destino no pueden ser iguales.");
+                        return;
+                    }
+                    if (!fechaValida(txtFechaViaje.getText())) {
+                        JOptionPane.showMessageDialog(null, "La fecha de viaje debe tener el formato YYYY-MM-DD (ej. 2026-07-15).");
+                        return;
+                    }
 
                     // Verificar si el asiento ya está reservado por otra reserva
                     boolean ocupado = reservadao.isSeatAlreadyBooked(
@@ -1872,6 +1907,15 @@ public class Sistema extends javax.swing.JFrame {
                     cmbCodigoClienteM.getSelectedItem().toString()
             );
 
+            if (!soloLetras(txtNombreMascota.getText())) {
+                JOptionPane.showMessageDialog(null, "El nombre de la mascota solo puede contener letras.");
+                return;
+            }
+            if (!soloLetras(txtRaza.getText())) {
+                JOptionPane.showMessageDialog(null, "La raza solo puede contener letras.");
+                return;
+            }
+
             // Validar si la mascota ya existe
             boolean existe = mascotadao.existsMascota(
                     txtNombreMascota.getText(),
@@ -1973,6 +2017,15 @@ public class Sistema extends javax.swing.JFrame {
                     cmbCodigoClienteM.getSelectedItem().toString()
             );
 
+            if (!soloLetras(txtNombreMascota.getText())) {
+                JOptionPane.showMessageDialog(null, "El nombre de la mascota solo puede contener letras.");
+                return;
+            }
+            if (!soloLetras(txtRaza.getText())) {
+                JOptionPane.showMessageDialog(null, "La raza solo puede contener letras.");
+                return;
+            }
+
             // Validar si ya existe otra mascota con mismo nombre
             boolean existe = mascotadao.existsMascota(
                     txtNombreMascota.getText(),
@@ -2070,6 +2123,11 @@ public class Sistema extends javax.swing.JFrame {
             try {
                 int codigoCliente = Integer.parseInt(cmbCodigoClienteE.getSelectedItem().toString());
 
+                if (!soloLetras(txtTipoEquipaje.getText())) {
+                    JOptionPane.showMessageDialog(null, "El tipo de equipaje solo puede contener letras.");
+                    return;
+                }
+
                 equipajedto.setCodigoCliente(codigoCliente);
                 equipajedto.setTipoEquipaje(txtTipoEquipaje.getText());
                 equipajedto.setPeso(Double.parseDouble(jsPesoEquipaje.getValue().toString()));
@@ -2102,6 +2160,11 @@ public class Sistema extends javax.swing.JFrame {
                 try {
                     int idEquipaje = Integer.parseInt(txtidEquipaje.getText());
                     int codigoCliente = Integer.parseInt(cmbCodigoClienteE.getSelectedItem().toString());
+
+                    if (!soloLetras(txtTipoEquipaje.getText())) {
+                        JOptionPane.showMessageDialog(null, "El tipo de equipaje solo puede contener letras.");
+                        return;
+                    }
 
                     equipajedto.setIdEquipaje(idEquipaje);
                     equipajedto.setCodigoCliente(codigoCliente);
